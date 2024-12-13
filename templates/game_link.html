@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Link</title>
+</head>
+<body>
+    <h1>Your Game Link</h1>
+    <p>Here is the link you can share with your friend:</p>
+    <a href="{{ game_link }}" target="_blank">{{ game_link }}</a>
+
+    <h2>Selected Actors and GIFs</h2>
+    <ul>
+        {% for selection in selections %}
+            <li>
+                Actor: {{ selection.actor }}<br>
+                <img src="{{ selection.gif }}" alt="GIF for {{ selection.actor }}">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

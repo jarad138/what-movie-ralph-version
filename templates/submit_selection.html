@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Your Selection</title>
+</head>
+<body>
+    <h1>Submit Your Movie & Actor Choice</h1>
+    <form action="/game" method="POST">
+        <input type="hidden" name="movie_id" value="{{ movie_id }}">
+        <input type="hidden" name="actor_id" value="{{ actor_id }}">
+        <input type="hidden" name="gif_url" value="{{ gif_url }}">
+        <button type="submit">Generate Link</button>
+    </form>
+</body>
+</html>

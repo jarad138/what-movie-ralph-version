@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Submitted</title>
+</head>
+<body>
+    <h1>Game Successfully Created!</h1>
+    
+    <h2>Your selections:</h2>
+    <div>
+        {% for selection in selections %}
+            <div>
+                <h3>Actor: {{ selection.actor }}</h3>
+                <img src="{{ selection.gif }}" alt="{{ selection.actor }} GIF" style="width: 200px; height: auto;">
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Share this game link with your friend:</h2>
+    <p>
+        <a href="{{ game_link }}" target="_blank">{{ game_link }}</a>
+    </p>
+
+    <p><a href="/">Go back to Home</a></p>
+</body>
+</html>

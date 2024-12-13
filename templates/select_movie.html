@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Movie</title>
+</head>
+<body>
+    <h1>Select a Movie</h1>
+    <div>
+        {% for movie in movies %}
+            <a href="/movies/actors/{{ movie.id }}">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" width="150">
+            </a>
+        {% endfor %}
+    </div>
+</body>
+</html>

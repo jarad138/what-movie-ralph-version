@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Actors</title>
+</head>
+<body>
+    <h1>Select Actors for the Movie</h1>
+    <div>
+        {% for actor in actors %}
+            <a href="/gifs?query={{ actor.name }}">
+                <img src="https://image.tmdb.org/t/p/w500{{ actor.profile_path }}" alt="{{ actor.name }}" width="100">
+                <p>{{ actor.name }}</p>
+            </a>
+        {% endfor %}
+    </div>
+</body>
+</html>

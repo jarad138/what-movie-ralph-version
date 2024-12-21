@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game - Guess the Movie</title>
+</head>
+<body>
+    <h1>Guess the Movie!</h1>
+
+    <h2>Your selections:</h2>
+    <div>
+        {% for selection in selections %}
+            <div>
+                <h3>Movie: {{ selection.movie_title }}</h3>
+                <img src="{{ selection.poster }}" alt="{{ selection.movie_title }} Poster" style="width: 200px; height: auto;">
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Enter your guess for the movie:</h2>
+    <form method="POST" action="/submit_guess/{{ game_id }}">
+        <input type="text" name="guess" placeholder="Your movie guess" required>
+        <button type="submit">Submit Guess</button>
+    </form>
+
+    <p><a href="/">Go back to Home</a></p>
+</body>
+</html>

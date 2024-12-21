@@ -21,6 +21,13 @@ giphy_client = giphy.Client(cfg.giphy_api_key)
 # in-memory storage for all games
 games = {}
 
+
+@app.route('/')
+def homepage():
+    return render_template('homepage.html')
+
+
+
 @app.route('/search', methods=['GET'])
 def search_form():
     return render_template('movie_search.html')
@@ -95,27 +102,25 @@ def search_gifs():
 def submit_gif():
     selected_gif = request.form['gif_url']
     selected_actor = request.form['actor_name']
-    movie_id = request.form['movie_id']  # Assume the movie_id is passed from the form
+    movie_id = request.form['movie_id']
 
-    # Save the selection in the session
     if 'actor_selections' not in session:
         session['actor_selections'] = []
-    
+
     if 'movie_id' not in session:
         session['movie_id'] = movie_id  # Save the movie ID in session for the redirection
-    
-    # Append the actor and GIF selection to session
+
+    # Append the actor and GIF to session
     session['actor_selections'].append({'actor': selected_actor, 'gif': selected_gif})
 
     # Debugging: Check session data
-    print(f"Session data after selection: {session['actor_selections']}, Movie ID: {session['movie_id']}")
+    print(f"Session data after selection: {session['actor_selections']}")
 
-    # If two actors have been selected, proceed to the final submission
     if len(session['actor_selections']) == 2:
         return redirect(url_for('submit_game'))
 
-    # Otherwise, redirect to select the second actor
-    return redirect(url_for('select_second_actor', movie_id=session['movie_id']))  # Redirect to select second actor
+    return redirect(url_for('select_second_actor', movie_id=session['movie_id']))
+
 
 @app.route('/select_second_actor', methods=['GET'])
 def select_second_actor():
@@ -132,6 +137,9 @@ def submit_game():
     # Retrieve selections from the session
     actor_selections = session.get('actor_selections', [])
 
+    # Debugging: Check the selections data
+    print(f"Actor selections: {actor_selections}")
+
     # Generate a unique game link and game ID
     game_id = secrets.token_urlsafe(8)
     game_link = f"/game/{game_id}"
@@ -144,6 +152,29 @@ def submit_game():
 
     # Render the 'submit_game.html' template with the actor selections and game link
     return render_template('submit_game.html', game_link=game_link, selections=actor_selections)
+
+@app.route('/submit_guess/<game_id>', methods=['POST'])
+def submit_guess(game_id):
+    # Retrieve the guess from the form
+    user_guess = request.form['guess']
+
+    # Retrieve the correct answer from the game data
+    game_data = games.get(game_id)
+
+    if not game_data:
+        return "Game not found", 404
+
+    correct_answer = "some correct answer based on game data"  # Logic to determine the correct movie
+    
+    # Check if the guess is correct
+    if user_guess.lower() == correct_answer.lower():
+        result = "Correct!"
+    else:
+        result = f"Incorrect! The correct answer was {correct_answer}"
+
+    return render_template('guess_result.html', result=result)
+
+
 
 
 @app.route("/game/<game_id>")
@@ -166,3 +197,5 @@ def reset_game():
     
     # Redirect to the movie selection page or any other starting page
     return redirect(url_for('search_form'))  # You can change this to any start page
+
+session.clear()

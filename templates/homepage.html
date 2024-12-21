@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Movie Actor GIF Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .start-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .start-button:hover {
+            background-color: #0056b3;
+        }
+        .description {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Movie Actor GIF Game!</h1>
+    <p class="description">
+        In this game, you will search for a movie, select two actors, and find GIFs of them! 
+        Compete to pick the best GIFs and have fun!
+    </p>
+    <a href="{{ url_for('search_form') }}" class="start-button">Start the Game</a>
+</body>
+</html>

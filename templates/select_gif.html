@@ -28,9 +28,9 @@
                 <!-- The form for each GIF -->
                 <form action="{{ url_for('submit_gif') }}" method="POST">
                     <input type="hidden" name="actor_name" value="{{ actor_name }}"> <!-- Actor's name -->
-                    <input type="hidden" name="gif_url" value="{{ gif.embed_url }}"> <!-- GIF URL -->
+                    <input type="hidden" name="gif_url" value="{{ gif.images.original.url }}"> <!-- GIF URL -->
                     <input type="hidden" name="movie_id" value="{{ movie_id }}"> <!-- Movie ID -->
-                    
+
                     <!-- Button with the image as background -->
                     <button type="submit" class="gif-button">
                         <img src="{{ gif.images.original.url }}" alt="Select this GIF">

@@ -19,14 +19,8 @@
       {% for selection in selections %}
       <div>
         <h3>Actor: {{ selection.actor }}</h3>
-        <!-- had to do iframe here idk why html is weird dude -->
-        <iframe
-          src="{{ selection.gif }}"
-          width="200"
-          height="auto"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <!-- GTFO iframe!!!! -->
+        <img src="{{ selection.gif }}" alt="Select this GIF">
       </div>
       {% endfor %}
     </div>

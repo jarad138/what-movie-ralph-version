@@ -4,6 +4,7 @@ import giphy
 import secrets
 import config
 import os
+import json
 
 cfg = config.Load()
 
@@ -41,7 +42,6 @@ def search_movies():
     try:
         # Call the API to search for the movie
         res = tmdb_client.search_movie_by_title(query)
-        print(res)  # Print the response to check its structure
 
         if isinstance(res, list):
             movies = res
@@ -61,7 +61,6 @@ def search_movies():
 def get_actors_by_movie_id(movie_id):
     try:
         res = tmdb_client.get_actors_by_movie_id(movie_id)
-        print(res)
 
         if isinstance(res, list):
             actors = res
@@ -104,14 +103,35 @@ def submit_gif():
     selected_actor = request.form['actor_name']
     movie_id = request.form['movie_id']
 
+    # if poster path is not is session then lets go get it and add it.
+    # there's a better way to do this. we can just add it to the form and pass it along.
+    # but this works for now. 
+    if 'poster_path' not in session or 'title' not in session:
+        try:
+            print("fetching movie by id:", movie_id)
+            movie = tmdb_client.get_movie_by_id(movie_id)
+            session['poster_path'] = movie.get("poster_path")
+            session['title'] = movie.get("title")
+            print("poster path:", movie.get("poster_path"))
+            print("title:", movie.get("title"))
+        except Exception as e:
+            print("get_movie_by_id error: ", e)
+
     if 'actor_selections' not in session:
         session['actor_selections'] = []
 
     if 'movie_id' not in session:
         session['movie_id'] = movie_id  # Save the movie ID in session for the redirection
 
+
+    # we have to get the actors first cause what if there is already one in there.
+    actor_selections = session.get('actor_selections', [])
     # Append the actor and GIF to session
-    session['actor_selections'].append({'actor': selected_actor, 'gif': selected_gif})
+    print("adding actor and gif to session:", selected_actor)
+    # now we add the actors to actor_selections. 
+    actor_selections.append({'actor': selected_actor, 'gif': selected_gif})
+    # now we set actor_selections back to the session which will have both actors.
+    session['actor_selections'] = actor_selections
 
     # Debugging: Check session data
     print(f"Session data after selection: {session['actor_selections']}")
@@ -147,11 +167,16 @@ def submit_game():
     # Store the selections and game ID in memory (or a database)
     games[game_id] = actor_selections
 
+    # get the movie data from the session and add it to the template.
+    movie = {}
+    movie['title'] = session['title']
+    movie['poster_path'] = session['poster_path']
+
     # Clear the session after generating the link
     session.clear()
 
     # Render the 'submit_game.html' template with the actor selections and game link
-    return render_template('submit_game.html', game_link=game_link, selections=actor_selections)
+    return render_template('submit_game.html', game_link=game_link, selections=actor_selections, movie=movie)
 
 @app.route('/submit_guess/<game_id>', methods=['POST'])
 def submit_guess(game_id):
@@ -165,7 +190,7 @@ def submit_guess(game_id):
         return "Game not found", 404
 
     correct_answer = "some correct answer based on game data"  # Logic to determine the correct movie
-    
+
     # Check if the guess is correct
     if user_guess.lower() == correct_answer.lower():
         result = "Correct!"
@@ -198,4 +223,3 @@ def reset_game():
     # Redirect to the movie selection page or any other starting page
     return redirect(url_for('search_form'))  # You can change this to any start page
 
-session.clear()

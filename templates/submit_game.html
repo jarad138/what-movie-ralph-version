@@ -1,34 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Game Successfully Created</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Game Successfully Created!</h1>
+    <h3>Movie: {{ movie.title }}</h3>
+    <img
+      src="https://image.tmdb.org/t/p/w200{{ movie.poster_path }}"
+      alt="{{ movie.title }} Poster"
+      style="width: 200px; height: auto"
+    />
 
     <h2>Your selections:</h2>
     <div>
-        {% for selection in selections %}
-            <div>
-                <h3>Movie: {{ selection.movie_title }}</h3>
-                <!-- Display the movie poster using the full URL -->
-                <img src="{{ selection.poster }}" alt="{{ selection.movie_title }} Poster" style="width: 200px; height: auto;">
-            </div>
-        {% endfor %}
+      {% for selection in selections %}
+      <div>
+        <h3>Actor: {{ selection.actor }}</h3>
+        <!-- had to do iframe here idk why html is weird dude -->
+        <iframe
+          src="{{ selection.gif }}"
+          width="200"
+          height="auto"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+      {% endfor %}
     </div>
 
     <h2>Share this game link with your friend:</h2>
     <p>
-        <a href="{{ game_link }}" target="_blank">{{ game_link }}</a>
+      <a href="{{ game_link }}" target="_blank">{{ game_link }}</a>
     </p>
 
     <h3>Instructions:</h3>
     <p>
-        Send this link to your friend! They will need to guess the movie based on the selected actors and posters.
+      Send this link to your friend! They will need to guess the movie based on
+      the selected actors and posters.
     </p>
 
     <p><a href="/">Go back to Home</a></p>
-</body>
+  </body>
 </html>

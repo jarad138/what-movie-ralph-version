@@ -34,6 +34,20 @@ class Client:
         movies = sorted(data['results'], key=lambda x: x['popularity'], reverse=True)
         return filter_fields(movies, fields_to_keep)
 
+    @functools.cache
+    def get_movie_by_id(self, movie_id: str):
+        url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+        headers = self.get_headers()
+
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            print("error:", response.text)
+            raise Exception(f"Failed to fetch movie by id: {response.status_code}")
+
+        data = response.json()
+        print("type of data:", type(data))
+        return data
+
     # https://developer.themoviedb.org/reference/movie-credits
     @functools.cache
     def get_actors_by_movie_id(self, movie_id: str, limit: int = 10):

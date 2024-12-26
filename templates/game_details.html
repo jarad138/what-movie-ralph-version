@@ -9,11 +9,10 @@
     <h1>Guess the Movie!</h1>
 
     <h2>Your selections:</h2>
-    <div>
+    <div style="display: flex; flex-wrap: wrap;">
         {% for selection in selections %}
-            <div>
-                <h3>Movie: {{ selection.movie_title }}</h3>
-                <img src="{{ selection.poster }}" alt="{{ selection.movie_title }} Poster" style="width: 200px; height: auto;">
+            <div style="margin: 10px;">
+                <img src="{{ selection.gif }}" alt="{{ selection.actor }} Poster" style="width: 400px; height: auto;">
             </div>
         {% endfor %}
     </div>

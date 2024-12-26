@@ -164,13 +164,20 @@ def submit_game():
     game_id = secrets.token_urlsafe(8)
     game_link = f"/game/{game_id}"
 
-    # Store the selections and game ID in memory (or a database)
-    games[game_id] = actor_selections
-
     # get the movie data from the session and add it to the template.
     movie = {}
     movie['title'] = session['title']
     movie['poster_path'] = session['poster_path']
+
+    # create game object to store in memory
+    game = {
+        'title': session['title'],
+        'poster_path': session['poster_path'],
+        'actor_selections': actor_selections
+    }
+
+    # Store the selections and game ID in memory (or a database later)
+    games[game_id] = game
 
     # Clear the session after generating the link
     session.clear()
@@ -208,8 +215,10 @@ def get_game(game_id):
     if game_id not in games:
         return "Game not found", 404
 
+    print("game data:", games[game_id])
+
     # Fetch the actor selections for the game
-    actor_selections = games[game_id]
+    actor_selections = games[game_id].get('actor_selections', [])
     return render_template('game_details.html', selections=actor_selections)
 
 if __name__ == '__main__':

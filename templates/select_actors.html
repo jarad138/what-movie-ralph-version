@@ -12,12 +12,12 @@
         <form action="{{ url_for('search_gifs') }}" method="GET">
             <input type="hidden" name="query" value="{{ actor.name }}">
             <input type="hidden" name="movie_id" value="{{ movie_id }}">
+            <input type="hidden" name="limit" value="20">
             <button type="submit">
                 <img src="https://image.tmdb.org/t/p/w500{{ actor.profile_path }}" alt="{{ actor.name }}" width="100">
                 <p>{{ actor.name }}</p>
             </button>
         </form>
-        
         {% endfor %}
     </div>
 </body>

@@ -196,13 +196,15 @@ def submit_guess(game_id):
     if not game_data:
         return "Game not found", 404
 
-    correct_answer = "some correct answer based on game data"  # Logic to determine the correct movie
+    correct_answer = game_data['title'].lower()
+
+    print(f"guess was: {user_guess} correct answer is: {correct_answer}")
 
     # Check if the guess is correct
     if user_guess.lower() == correct_answer.lower():
         result = "Correct!"
     else:
-        result = f"Incorrect! The correct answer was {correct_answer}"
+        result = f"Incorrect! The correct answer was '{correct_answer}'"
 
     return render_template('guess_result.html', result=result)
 
@@ -219,7 +221,7 @@ def get_game(game_id):
 
     # Fetch the actor selections for the game
     actor_selections = games[game_id].get('actor_selections', [])
-    return render_template('game_details.html', selections=actor_selections)
+    return render_template('game_details.html', selections=actor_selections, game_id=game_id)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
